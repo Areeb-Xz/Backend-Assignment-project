@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PrimeTrade Assignment Dashboard</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+      min-height: 100vh;
+      color: #f1f5f9;
+      padding: 2rem;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .header h1 {
+      background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .header p {
+      color: #94a3b8;
+      font-size: 1.1rem;
+    }
+
+    .card {
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(59, 130, 246, 0.2);
+      border-radius: 20px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(251, 191, 36, 0.4);
+      box-shadow: 0 35px 60px -12px rgba(251, 191, 36, 0.2);
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: #e2e8f0;
+      font-weight: 500;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      background: rgba(30, 41, 59, 0.8);
+      border: 2px solid rgba(59, 130, 246, 0.3);
+      border-radius: 12px;
+      color: #f1f5f9;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: #fbbf24;
+      box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.1);
+      background: rgba(30, 41, 59, 1);
+    }
+
+    input::placeholder, textarea::placeholder {
+      color: #64748b;
+    }
+
+    button {
+      background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+      color: #0f172a;
+      border: none;
+      padding: 0.875rem 2rem;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      width: 100%;
+      margin-top: 0.5rem;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 30px rgba(251, 191, 36, 0.4);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .btn-secondary {
+      background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    }
+
+    .btn-secondary:hover {
+      box-shadow: 0 15px 30px rgba(59, 130, 246, 0.4);
+    }
+
+    .btn-danger {
+      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+      font-size: 0.875rem;
+      padding: 0.5rem 1rem;
+    }
+
+    .toggle-btn {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      margin-right: 0.5rem;
+    }
+
+    #messages {
+      margin-bottom: 1.5rem;
+    }
+
+    .message {
+      padding: 1rem;
+      border-radius: 12px;
+      margin-bottom: 1rem;
+      font-weight: 500;
+    }
+
+    .success {
+      background: rgba(16, 185, 129, 0.2);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: #dcfce7;
+    }
+
+    .error {
+      background: rgba(239, 68, 68, 0.2);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      color: #fecaca;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      background: rgba(30, 41, 59, 0.6);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 1rem;
+      text-align: left;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+    }
+
+    th {
+      background: rgba(59, 130, 246, 0.2);
+      font-weight: 600;
+      color: #bfdbfe;
+    }
+
+    tr:hover {
+      background: rgba(251, 191, 36, 0.1);
+    }
+
+    #user-info {
+      background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+      padding: 1rem;
+      border-radius: 12px;
+      margin-bottom: 1.5rem;
+      font-weight: 600;
+    }
+
+    @media (max-width: 768px) {
+      body { padding: 1rem; }
+      .header h1 { font-size: 2rem; }
+      .card { padding: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>PrimeTrade Dashboard</h1>
+      <p>Secure Task Management | JWT Auth | Role-Based Access</p>
+    </div>
+
+    <div id="messages"></div>
+
+    <div class="card" id="auth-card">
+      <h2 style="margin-bottom: 1.5rem; color: #e2e8f0;">🚀 Get Started</h2>
+      
+      <div class="form-group">
+        <h3 style="color: #fbbf24; margin-bottom: 1rem;">Register</h3>
+        <input id="reg-name" placeholder="Full Name" />
+        <input id="reg-email" placeholder="Email Address" />
+        <input id="reg-password" placeholder="Password (min 6 chars)" type="password" />
+        <select id="reg-role">
+          <option value="user">User</option>
+          <option value="admin">Admin</option>
+        </select>
+        <button id="reg-btn">Create Account</button>
+      </div>
+
+      <div style="border-top: 1px solid rgba(148, 163, 184, 0.3); padding-top: 1.5rem;">
+        <h3 style="color: #3b82f6; margin-bottom: 1rem;">Login</h3>
+        <input id="login-email" placeholder="Email Address" />
+        <input id="login-password" placeholder="Password" type="password" />
+        <button id="login-btn" class="btn-secondary">Sign In</button>
+      </div>
+    </div>
+
+    <div class="card hidden" id="dashboard-card">
+      <div id="user-info"></div>
+      
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <h2 style="color: #e2e8f0;">📊 My Tasks</h2>
+        <button id="logout-btn" class="btn-secondary">Logout</button>
+      </div>
+
+      <div class="form-group">
+        <h3 style="color: #10b981; margin-bottom: 1rem;">➕ Add New Task</h3>
+        <input id="task-title" placeholder="Task Title" />
+        <textarea id="task-desc" placeholder="Description (optional)" rows="3"></textarea>
+        <label style="display: flex; align-items: center; margin-bottom: 1rem;">
+          <input id="task-completed" type="checkbox" style="margin-right: 0.5rem; transform: scale(1.2);" />
+          Mark as Complete
+        </label>
+        <button id="create-task-btn">Add Task</button>
+      </div>
+
+      <div class="form-group">
+        <button id="refresh-tasks-btn" class="btn-secondary" style="width: auto;">🔄 Refresh Tasks</button>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="tasks-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    // Same JavaScript as before - all functionality preserved
+    const API_BASE = 'http://localhost:5000/api/v1';
+    let token = null;
+    let currentUser = null;
+
+    const messagesDiv = document.getElementById('messages');
+    const authCard = document.getElementById('auth-card');
+    const dashboardCard = document.getElementById('dashboard-card');
+    const userInfoP = document.getElementById('user-info');
+
+    function showMessage(text, type = 'success') {
+      messagesDiv.innerHTML = `<div class="message ${type}">${text}</div>`;
+      setTimeout(() => {
+        messagesDiv.innerHTML = '';
+      }, 5000);
+    }
+
+    function clearMessage() {
+      messagesDiv.innerHTML = '';
+    }
+
+    function setAuthState(isAuthed) {
+      if (isAuthed) {
+        authCard.classList.add('hidden');
+        dashboardCard.classList.remove('hidden');
+        userInfoP.textContent = `👤 ${currentUser.name} | ${currentUser.role.toUpperCase()} | Secured by JWT`;
+      } else {
+        authCard.classList.remove('hidden');
+        dashboardCard.classList.add('hidden');
+        userInfoP.textContent = '';
+        token = null;
+        currentUser = null;
+      }
+    }
+
+    async function apiRequest(path, options = {}) {
+      const headers = { 'Content-Type': 'application/json' };
+      if (token) headers['Authorization'] = 'Bearer ' + token;
+      
+      try {
+        const res = await fetch(API_BASE + path, { ...options, headers });
+        const data = await res.json().catch(() => ({}));
+        
+        if (!res.ok) {
+          const msg = data.message || (data.errors?.[0]?.msg) || 'Request failed';
+          throw new Error(msg);
+        }
+        return data;
+      } catch (err) {
+        showMessage(err.message, 'error');
+        throw err;
+      }
+    }
+
+    // Event listeners (same as before)
+    document.getElementById('reg-btn').addEventListener('click', async () => {
+      clearMessage();
+      const name = document.getElementById('reg-name').value.trim();
+      const email = document.getElementById('reg-email').value.trim();
+      const password = document.getElementById('reg-password').value;
+      const role = document.getElementById('reg-role').value;
+
+      if (!name || !email || !password) {
+        return showMessage('Please fill all fields', 'error');
+      }
+
+      try {
+        const data = await apiRequest('/auth/register', {
+          method: 'POST',
+          body: JSON.stringify({ name, email, password, role })
+        });
+        token = data.token;
+        currentUser = data.user;
+        setAuthState(true);
+        showMessage('✅ Account created & logged in successfully!');
+        loadTasks();
+      } catch (_) {}
+    });
+
+    document.getElementById('login-btn').addEventListener('click', async () => {
+      clearMessage();
+      const email = document.getElementById('login-email').value.trim();
+      const password = document.getElementById('login-password').value;
+
+      if (!email || !password) {
+        return showMessage('Please enter email & password', 'error');
+      }
+
+      try {
+        const data = await apiRequest('/auth/login', {
+          method: 'POST',
+          body: JSON.stringify({ email, password })
+        });
+        token = data.token;
+        currentUser = data.user;
+        setAuthState(true);
+        showMessage('✅ Welcome back!');
+        loadTasks();
+      } catch (_) {}
+    });
+
+    document.getElementById('logout-btn').addEventListener('click', () => {
+      setAuthState(false);
+      showMessage('👋 Logged out');
+      // Clear form values
+      document.querySelectorAll('input, textarea, select').forEach(el => el.value = '');
+    });
+
+    document.getElementById('create-task-btn').addEventListener('click', async () => {
+      clearMessage();
+      const title = document.getElementById('task-title').value.trim();
+      const description = document.getElementById('task-desc').value.trim();
+      const completed = document.getElementById('task-completed').checked;
+
+      if (!title) {
+        return showMessage('Task title is required', 'error');
+      }
+
+      try {
+        await apiRequest('/tasks', {
+          method: 'POST',
+          body: JSON.stringify({ title, description, completed })
+        });
+        showMessage('✅ Task created!');
+        document.getElementById('task-title').value = '';
+        document.getElementById('task-desc').value = '';
+        document.getElementById('task-completed').checked = false;
+        loadTasks();
+      } catch (_) {}
+    });
+
+    document.getElementById('refresh-tasks-btn').addEventListener('click', () => {
+      clearMessage();
+      loadTasks();
+    });
+
+    async function loadTasks() {
+      if (!token) return;
+      try {
+        const tasks = await apiRequest('/tasks');
+        const tbody = document.getElementById('tasks-tbody');
+        tbody.innerHTML = '';
+
+        if (tasks.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: #94a3b8;">No tasks yet. Create one above!</td></tr>';
+          return;
+        }
+
+        tasks.forEach((task) => {
+          const status = task.completed ? '✅ Complete' : '⏳ Pending';
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td style="font-weight: 500;">${task.title}</td>
+            <td>${task.description || '-'}</td>
+            <td style="color: ${task.completed ? '#10b981' : '#f59e0b'};">${status}</td>
+            <td>
+              <button class="toggle-btn" data-id="${task._id}" style="margin-right: 0.5rem;">
+                ${task.completed ? '⏳ Mark Pending' : '✅ Mark Complete'}
+              </button>
+              <button class="btn-danger" data-id="${task._id}">🗑️ Delete</button>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+
+        // Add event listeners
+        tbody.querySelectorAll('.toggle-btn').forEach(btn => {
+          btn.addEventListener('click', async () => {
+            const id = btn.dataset.id;
+            const task = tasks.find(t => t._id === id);
+            try {
+              await apiRequest(`/tasks/${id}`, {
+                method: 'PUT',
+                body: JSON.stringify({ completed: !task.completed })
+              });
+              showMessage('✅ Task updated!');
+              loadTasks();
+            } catch (_) {}
+          });
+        });
+
+        tbody.querySelectorAll('.btn-danger').forEach(btn => {
+          btn.addEventListener('click', async () => {
+            if (!confirm('Delete this task?')) return;
+            const id = btn.dataset.id;
+            try {
+              await apiRequest(`/tasks/${id}`, { method: 'DELETE' });
+              showMessage('🗑️ Task deleted!');
+              loadTasks();
+            } catch (_) {}
+          });
+        });
+      } catch (err) {
+        console.error('Load tasks error:', err);
+      }
+    }
+  </script>
+</body>
+</html>

@@ -175,7 +175,7 @@ Manual test cases executed:
 
 ## 📧 Submit
 
-- **GitHub**: Add your repository URL here.
+- **GitHub**: [Backend-Assigment-project]{https://github.com/Areeb-Xz/Backend-Assignment-project}.
 - **Live Demo** (local): Backend `http://localhost:5000`, Frontend `http://127.0.0.1:5500/frontend/index.html`.
 
 ---
